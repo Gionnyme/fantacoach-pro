@@ -1,0 +1,66 @@
+name: Crea APK Android
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  crea-apk:
+    name: Compila FantaCoach Pro
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Scarica il progetto
+        uses: actions/checkout@v6
+
+      - name: Installa Java 17
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Installa Android SDK
+        uses: android-actions/setup-android@v4
+
+      - name: Installa Android API 36 e Build Tools
+        shell: bash
+        run: |
+          sdkmanager "platforms;android-36" "build-tools;35.0.0" "platform-tools"
+
+      - name: Installa Gradle 8.13
+        uses: gradle/actions/setup-gradle@v6
+        with:
+          gradle-version: "8.13"
+
+      - name: Controlla ambiente
+        shell: bash
+        run: |
+          java -version
+          gradle --version
+          test -f android/settings.gradle
+          test -f android/app/build.gradle
+          test -f android/app/src/main/AndroidManifest.xml
+
+      - name: Compila APK
+        shell: bash
+        run: |
+          gradle -p android :app:assembleDebug --no-daemon --stacktrace
+
+      - name: Verifica APK creato
+        shell: bash
+        run: |
+          test -f android/app/build/outputs/apk/debug/app-debug.apk
+          mkdir -p output
+          cp android/app/build/outputs/apk/debug/app-debug.apk output/FantaCoach-Pro-v7.5.apk
+          ls -lh output/FantaCoach-Pro-v7.5.apk
+
+      - name: Rendi disponibile APK da scaricare
+        uses: actions/upload-artifact@v7
+        with:
+          name: FantaCoach-Pro-v7.5-APK
+          path: output/FantaCoach-Pro-v7.5.apk
+          if-no-files-found: error
+          retention-days: 30
