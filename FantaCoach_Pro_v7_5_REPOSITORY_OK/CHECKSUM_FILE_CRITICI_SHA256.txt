@@ -1,0 +1,3 @@
+311e672568c4bf889dc18f56a1bfc7f0813f5c0f8fd57e673df1c56613152e3c  .github/workflows/crea-apk-android.yml
+6844d442e0ae87ec0b784c8afe5598878784c4fa41aced1e9389a9b3bfb25666  android/build.gradle
+fe0b8bdbc381f9eb3d39acb229da7ffb716489bc55cd38c971b2e4dd6dd31e78  android/app/build.gradle

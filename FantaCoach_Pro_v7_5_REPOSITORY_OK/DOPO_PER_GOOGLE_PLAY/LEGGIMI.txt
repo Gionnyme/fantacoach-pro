@@ -1,0 +1,3 @@
+Per ora questa cartella non serve per installare l'app sul telefono.
+Prima genera e prova l'APK con GitHub Actions.
+La procedura AAB/Google Play verra usata solo dopo il test dell'app.

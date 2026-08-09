@@ -1,0 +1,14 @@
+SE SU GITHUB NON COMPARE 'Crea APK Android':
+
+1. Vai nel repository su GitHub.
+2. Apri la scheda CODICE.
+3. Verifica che esista:
+   .github/workflows/crea-apk-android.yml
+
+Se NON esiste:
+4. Premi Aggiungi file > Crea nuovo file.
+5. Nel campo nome file scrivi ESATTAMENTE:
+   .github/workflows/crea-apk-android.yml
+6. Copia dentro il contenuto del file crea-apk-android.yml presente in questa cartella.
+7. Premi Conferma modifiche.
+8. Apri AZIONI: a sinistra deve comparire 'Crea APK Android'.

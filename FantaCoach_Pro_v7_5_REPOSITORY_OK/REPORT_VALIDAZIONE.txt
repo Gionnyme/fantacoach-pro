@@ -1,0 +1,22 @@
+FantaCoach Pro v7.5 - REPORT VALIDAZIONE
+
+[OK] web-source/app.js - 
+[OK] backend-vercel/api/sync.js - 
+[OK] backend-vercel/api/matchday.js - 
+[OK] android/app/src/main/AndroidManifest.xml - XML OK
+[OK] android/app/src/main/res/values/styles.xml - XML OK
+[OK] android/app/src/main/res/drawable/splash_background.xml - XML OK
+[OK] web-source/manifest.json - JSON OK
+[OK] backend-vercel/vercel.json - JSON OK
+[OK] .github/workflows/crea-apk-android.yml - YAML struttura OK
+[OK] .github/workflows/crea-apk-android.yml - presente
+[OK] android/settings.gradle - presente
+[OK] android/build.gradle - presente
+[OK] android/app/build.gradle - presente
+[OK] android/app/src/main/AndroidManifest.xml - presente
+[OK] android/app/src/main/java/it/fantacoachpro/android/MainActivity.java - presente
+[OK] android/app/src/main/assets/www/index.html - presente
+[OK] GUIDA_ITALIANA_APK.pdf - presente
+[OK] GUIDA_ITALIANA_APK.pdf render - render OK
+
+ESITO: PACCHETTO VALIDATO

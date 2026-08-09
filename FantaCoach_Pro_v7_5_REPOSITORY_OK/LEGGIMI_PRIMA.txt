@@ -1,0 +1,15 @@
+FANTACOACH PRO v7.5 - PACCHETTO GITHUB PULITO
+
+IMPORTANTE:
+- Estrai prima tutto lo ZIP sul computer.
+- NON caricare lo ZIP chiuso nel repository.
+- Nel repository GitHub, alla radice, devono vedersi le cartelle:
+  .github
+  android
+  backend-vercel
+  web-source
+
+Dopo il caricamento:
+GitHub > Azioni > Crea APK Android > Esegui flusso di lavoro.
+
+Questa versione usa UN SOLO workflow nella sezione Azioni per evitare confusione.

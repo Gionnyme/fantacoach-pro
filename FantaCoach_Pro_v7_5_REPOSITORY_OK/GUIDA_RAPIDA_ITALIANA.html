@@ -1,0 +1,20 @@
+<!doctype html><html lang="it"><head><meta charset="utf-8">
+<title>Guida FantaCoach v7.5</title>
+<style>
+body{font-family:Arial,sans-serif;max-width:850px;margin:40px auto;padding:0 20px;line-height:1.55;color:#172033}
+h1{color:#0B1320} h2{color:#188f34} code{background:#eef2f7;padding:3px 6px;border-radius:5px}
+.box{background:#f2fff5;border:1px solid #b7e6c2;padding:14px;border-radius:10px}
+.warn{background:#fff8e6;border:1px solid #efd690;padding:14px;border-radius:10px}
+</style></head><body>
+<h1>FantaCoach Pro v7.5 - Come creare l'APK</h1>
+<div class="warn"><b>Prima regola:</b> estrai lo ZIP. Non caricare lo ZIP chiuso su GitHub.</div>
+<h2>1. Carica il repository</h2>
+<p>Nella pagina principale del repository devono comparire <code>.github</code>, <code>android</code>, <code>backend-vercel</code> e <code>web-source</code>.</p>
+<h2>2. Controlla il workflow</h2>
+<p>Apri <code>.github/workflows/crea-apk-android.yml</code>. Se il file esiste, GitHub riconosce il workflow.</p>
+<h2>3. Avvia la compilazione</h2>
+<p>Apri <b>Azioni</b>. A sinistra seleziona <b>Crea APK Android</b>. Premi <b>Esegui flusso di lavoro</b>, scegli <b>main</b> e conferma.</p>
+<h2>4. Scarica l'APK</h2>
+<p>Quando la compilazione è verde, apri l'esecuzione e scarica l'artefatto <b>FantaCoach-Pro-v7.5-APK</b>. Dentro trovi <code>FantaCoach-Pro-v7.5.apk</code>.</p>
+<div class="box"><b>Se non compare Crea APK Android:</b> usa la cartella <code>SE_NON_COMPARE_LA_VOCE_AZIONI</code> inclusa nel pacchetto.</div>
+</body></html>

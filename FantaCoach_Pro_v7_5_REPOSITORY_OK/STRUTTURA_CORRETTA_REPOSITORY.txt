@@ -1,0 +1,15 @@
+.github/
+  workflows/
+    crea-apk-android.yml
+android/
+  app/
+    build.gradle
+    src/main/AndroidManifest.xml
+    src/main/java/it/fantacoachpro/android/MainActivity.java
+    src/main/assets/www/
+  build.gradle
+  settings.gradle
+backend-vercel/
+web-source/
+README.md
+GUIDA_ITALIANA_APK.pdf
