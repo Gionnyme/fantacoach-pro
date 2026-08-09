@@ -1,0 +1,42 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'it.fantacoachpro.android'
+    compileSdk 36
+
+    defaultConfig {
+        applicationId "it.fantacoachpro.android"
+        minSdk 21
+        targetSdk 36
+        versionCode 11
+        versionName "7.4.0"
+    }
+
+    signingConfigs {
+        release {
+            def storeFilePath = System.getenv("FANTACOACH_KEYSTORE_PATH")
+            if (storeFilePath != null && !storeFilePath.isEmpty()) {
+                storeFile file(storeFilePath)
+                storePassword System.getenv("FANTACOACH_KEYSTORE_PASSWORD")
+                keyAlias System.getenv("FANTACOACH_KEY_ALIAS")
+                keyPassword System.getenv("FANTACOACH_KEY_PASSWORD")
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            if (System.getenv("FANTACOACH_KEYSTORE_PATH") != null) {
+                signingConfig signingConfigs.release
+            }
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}

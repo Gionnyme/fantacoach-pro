@@ -1,0 +1,17 @@
+{
+  "name": "FantaCoach Pro v7.3",
+  "short_name": "FantaCoach Pro",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#08111e",
+  "theme_color": "#0a1220",
+  "description": "App Fantacalcio con nuova identità grafica FantaCoach Pro, asta live, API, infortuni, squalifiche e formazione.",
+  "icons": [
+    {
+      "src": "logo-app.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
