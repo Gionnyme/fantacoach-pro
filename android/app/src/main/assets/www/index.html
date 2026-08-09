@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0a1220">
+<title>FantaCoach Pro v7.4</title>
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand-wrap">
+    <img src="logo-app.png" alt="Logo FantaCoach Pro" class="brand-logo">
+    <div>
+    <div class="eyebrow">ALLENA. SCEGLI. VINCI.</div>
+    <h1><span class="brand-white">Fanta</span><span class="brand-green">Coach</span> <span class="brand-pro">Pro</span></h1>
+    <p>Il tuo assistente IA per asta, formazione, mercato e gestione completa della lega.</p>
+    </div>
+  </div>
+  <button id="installBtn" class="btn secondary hidden">Installa</button>
+</header>
+
+<main class="container">
+<section class="stats grid">
+  <article class="card stat"><span>Budget iniziale</span><strong><span id="budgetInitial">1000</span> cr</strong></article>
+  <article class="card stat"><span>Crediti rimasti</span><strong class="good"><span id="budgetLeft">1000</span> cr</strong></article>
+  <article class="card stat"><span>Miei acquisti</span><strong><span id="myBought">0</span>/25</strong></article>
+  <article class="card stat"><span>Giocatori assegnati</span><strong><span id="soldCount">0</span></strong></article>
+</section>
+
+<section class="card settings">
+  <div class="settings-grid">
+    <label>Budget lega
+      <input id="budgetInput" type="number" min="100" max="10000" value="1000">
+    </label>
+    <label>Strategia
+      <select id="strategy">
+        <option value="mid_def_risk">Centro Top + Difesa Bonus</option>
+        <option value="midfield">Centrocampo dominante</option>
+        <option value="defense_risk">Difesa Bonus + Scommesse</option>
+        <option value="balanced">Equilibrata</option>
+        <option value="attack">Top in attacco</option>
+        <option value="value">Qualità/prezzo</option>
+      </select>
+    </label>
+    <label>Ricerca
+      <input id="globalSearch" type="search" placeholder="Giocatore o squadra...">
+    </label>
+    <label>Ruolo
+      <select id="globalRole">
+        <option value="">Tutti</option><option>P</option><option>D</option><option>C</option><option>A</option>
+      </select>
+    </label>
+  </div>
+</section>
+
+
+<section class="feature-strip">
+  <div class="feature"><span class="feature-icon live">↻</span><div><strong>Dati Live</strong><small>Rose, infortuni e squalifiche</small></div></div>
+  <div class="feature"><span class="feature-icon ai">✦</span><div><strong>Consigli IA</strong><small>Formazione e sostituti</small></div></div>
+  <div class="feature"><span class="feature-icon league">♜</span><div><strong>Gestione Lega</strong><small>Asta, budget e avversari</small></div></div>
+  <div class="feature"><span class="feature-icon statsico">▥</span><div><strong>Statistiche</strong><small>Bonus, forma e titolarità</small></div></div>
+</section>
+
+<nav class="tabs">
+  <button class="tab active" data-tab="auction">Asta Live</button>
+  <button class="tab" data-tab="builder">Rosa ideale</button>
+  <button class="tab" data-tab="lists">Listone & Liste</button>
+  <button class="tab" data-tab="league">La Lega</button>
+  <button class="tab" data-tab="lineup">Formazione</button>
+  <button class="tab" data-tab="saved">Rose salvate</button>
+  <button class="tab" data-tab="data">Dati</button>
+  <button class="tab" data-tab="guide">Guida API</button>
+</nav>
+
+<section id="auction" class="tab-panel active">
+  <div class="section-head">
+    <div>
+      <h2>Asta Live</h2>
+      <p>Registra ogni acquisto. Se un avversario prende un tuo obiettivo, l'app cerca subito il sostituto più simile.</p>
+    </div>
+  </div>
+  <div id="auctionAlerts"></div>
+  <div class="auction-filters">
+    <button class="filter-pill active" data-availability="available">Disponibili</button>
+    <button class="filter-pill" data-availability="all">Tutti</button>
+    <button class="filter-pill" data-availability="mine">Miei</button>
+    <button class="filter-pill" data-availability="sold">Avversari</button>
+  </div>
+  <div id="auctionGrid" class="players-grid"></div>
+</section>
+
+<section id="builder" class="tab-panel">
+  <div class="section-head">
+    <div><h2>Rosa ideale</h2><p>Scegli alcuni obiettivi oppure lascia fare tutto a FantaCoach. Gli acquisti reali vengono sempre mantenuti.</p></div>
+  </div>
+  <div class="actions">
+    <button id="proposeBtn" class="btn primary">✨ Proponi rosa completa</button>
+    <button id="completeBtn" class="btn accent">🧩 Completa le mie scelte</button>
+    <button id="saveSquadBtn" class="btn secondary">💾 Salva rosa</button>
+    <button id="clearPlanBtn" class="btn danger">Azzera piano</button>
+  </div>
+  <div id="planSummary" class="coach-box"></div>
+  <div id="planByRole"></div>
+</section>
+
+<section id="lists" class="tab-panel">
+  <div class="section-head">
+    <div><h2>Listone & Liste intelligenti</h2><p>Organizza obiettivi per fascia. I giocatori non più disponibili vengono sostituiti automaticamente.</p></div>
+  </div>
+  <div class="card list-toolbar">
+    <div class="list-controls">
+      <label>Squadra<select id="teamFilter"><option value="">Tutte</option></select></label>
+      <label>Ruolo<select id="listRoleFilter"><option value="">Tutti</option><option>P</option><option>D</option><option>C</option><option>A</option></select></label>
+      <label>Lista<select id="customListFilter"><option value="">Tutti</option></select></label>
+    </div>
+    <div class="new-list">
+      <input id="newListName" maxlength="30" placeholder="Es. Miei pupilli">
+      <button id="createListBtn" class="btn secondary">Crea lista</button>
+    </div>
+    <div id="listChips" class="chips"></div>
+  </div>
+  <div id="replacementLog"></div>
+  <div id="listoneGrid" class="players-grid"></div>
+</section>
+
+<section id="league" class="tab-panel">
+  <div class="section-head">
+    <div><h2>La Lega</h2><p>Inserisci le squadre della lega e confronta in tempo reale la competitività delle rose.</p></div>
+  </div>
+
+  <div class="card league-setup">
+    <div class="settings-grid">
+      <label>Nome lega<input id="leagueName" placeholder="La mia lega"></label>
+      <label>La mia squadra<input id="myTeamName" placeholder="Nome squadra"></label>
+      <label>Nuovo avversario<input id="newOpponent" placeholder="Nome squadra avversaria"></label>
+      <div class="field-button"><button id="addOpponentBtn" class="btn primary">+ Aggiungi squadra</button></div>
+    </div>
+    <div id="teamChips" class="chips"></div>
+  </div>
+
+  <div class="card compare-card">
+    <h3>Power Ranking della lega</h3>
+    <p class="small">Proiezione basata su qualità dei giocatori acquistati, equilibrio per ruolo, crediti residui e possibilità di completare la rosa.</p>
+    <div id="leagueRanking"></div>
+  </div>
+
+  <div class="card import-card">
+    <h3>Importa situazione asta</h3>
+    <p>CSV: <code>player,owner,cost</code>. Utile per ricostruire rapidamente un'asta già iniziata.</p>
+    <input id="leagueCsv" type="file" accept=".csv,text/csv">
+    <div id="leagueImportMsg" class="message"></div>
+  </div>
+</section>
+
+
+<section id="lineup" class="tab-panel">
+  <div class="section-head">
+    <div>
+      <h2>Formazione della giornata</h2>
+      <p>L'IA propone l'XI migliore usando solo i tuoi acquisti reali. Puoi poi modificare liberamente la scelta.</p>
+    </div>
+  </div>
+
+  <div class="card lineup-toolbar">
+    <div class="settings-grid">
+      <label>Giornata
+        <select id="roundSelect"><option value="">Sincronizza il calendario</option></select>
+      </label>
+      <label>Modulo preferito
+        <select id="formationPref">
+          <option value="auto">Automatico</option>
+          <option value="343">3-4-3</option>
+          <option value="352">3-5-2</option>
+          <option value="433">4-3-3</option>
+          <option value="442">4-4-2</option>
+          <option value="451">4-5-1</option>
+          <option value="532">5-3-2</option>
+          <option value="541">5-4-1</option>
+        </select>
+      </label>
+      <div class="field-button"><button id="matchdaySyncBtn" class="btn secondary">🔄 Aggiorna giornata</button></div>
+      <div class="field-button"><button id="suggestLineupBtn" class="btn primary">✨ Suggerisci XI</button></div>
+    </div>
+    <div id="matchdayStatus" class="sync-status warn">Calendario non ancora sincronizzato.</div>
+    <p class="small">Con modulo automatico, FantaCoach può scegliere 4 difensori quando il vantaggio del bonus/modificatore difesa supera l'alternativa offensiva.</p>
+  </div>
+
+  <div id="lineupWarnings"></div>
+
+  <div class="lineup-columns">
+    <div>
+      <h3>XI titolare <span id="lineupCount" class="muted-inline">0/11</span></h3>
+      <div id="startingXI" class="lineup-grid"></div>
+    </div>
+    <div>
+      <h3>Panchina</h3>
+      <div id="benchList" class="lineup-grid"></div>
+    </div>
+  </div>
+</section>
+
+<section id="saved" class="tab-panel">
+  <div class="section-head"><div><h2>Rose salvate</h2><p>Conserva più strategie e ricaricale quando vuoi.</p></div></div>
+  <div id="savedSquads"></div>
+</section>
+
+<section id="data" class="tab-panel">
+  <div class="card import-card">
+    <h2>Sync automatico Serie A</h2>
+    <p>Collegamento sicuro via backend: la chiave API resta sul server e non viene salvata nel browser.</p>
+    <div class="settings-grid api-settings">
+      <label>Stagione API
+        <input id="apiSeason" type="number" min="2020" max="2035" value="2026">
+      </label>
+      <label>Intervallo automatico
+        <select id="apiInterval">
+          <option value="21600000">Ogni 6 ore</option>
+          <option value="43200000">Ogni 12 ore</option>
+          <option value="86400000">Una volta al giorno</option>
+        </select>
+      </label>
+      <div class="field-button"><button id="apiSyncBtn" class="btn primary">⚡ Sincronizza Serie A</button></div>
+      <div class="field-button"><button id="apiTestBtn" class="btn secondary">Test collegamento</button></div>
+    </div>
+    <div class="actions medical-actions">
+      <button id="medicalSyncBtn" class="btn secondary">🩺 Aggiorna infortuni + tempi di rientro</button>
+    </div>
+    <div id="apiStatus" class="sync-status">API non ancora sincronizzata.</div>
+    <div id="apiMessage" class="message"></div>
+    <p class="small">Il sync aggiorna squadre e appartenenza dei giocatori. Il controllo medico usa anche lo storico indisponibilità per stimare inizio/fine assenza quando l'API dispone delle date. Se l'assenza prevista è almeno 90 giorni, compare automaticamente <strong>SOSTITUIBILE ≥3 MESI</strong>.</p>
+  </div>
+  <div class="card import-card">
+    <h2>Dati fantacalcistici / fallback CSV</h2>
+    <p>Collega un CSV pubblico con quotazioni, FVM, ruoli e indicatori. Può essere usato insieme al sync Serie A.</p>
+    <label>URL CSV giocatori<input id="remoteUrl" type="url" placeholder="https://.../giocatori.csv"></label>
+    <div class="actions">
+      <button id="syncRemoteBtn" class="btn primary">Aggiorna ora</button>
+      <button id="clearRemoteBtn" class="btn secondary">Rimuovi sorgente</button>
+    </div>
+    <div id="syncMessage" class="message"></div>
+  </div>
+  <div class="card import-card">
+    <h3>Import manuale listone</h3>
+    <p><code>name,team,role,price,fvm,form,starter,risk,avg,goals,assists,setpieces,attacking,newarrival,upside</code></p>
+    <input id="playersCsv" type="file" accept=".csv,text/csv">
+    <div class="actions"><button id="downloadTemplateBtn" class="btn secondary">Scarica modello</button><button id="restoreDemoBtn" class="btn secondary">Ripristina demo</button></div>
+    <div id="importMessage" class="message"></div>
+  </div>
+</section>
+
+<section id="guide" class="tab-panel">
+  <div class="section-head">
+    <div>
+      <h2>Guida collegamento API</h2>
+      <p>Questa guida resta dentro l'app, così chiunque potrà riconfigurare il servizio in futuro.</p>
+    </div>
+  </div>
+
+  <div class="card guide-card">
+    <h3>1. Crea la chiave API</h3>
+    <p>Registrati su API-Football / API-Sports e crea una API key per il servizio Football.</p>
+    <div class="guide-note">🔐 Non inserire mai la chiave direttamente nell'app Android, in app.js o in un CSV.</div>
+  </div>
+
+  <div class="card guide-card">
+    <h3>2. Pubblica il backend</h3>
+    <p>Nel pacchetto Android trovi la cartella <code>backend-vercel</code>. Pubblicala su Vercel.</p>
+    <ol>
+      <li>Crea un nuovo progetto Vercel.</li>
+      <li>Carica la cartella <strong>backend-vercel</strong>.</li>
+      <li>Apri <strong>Settings → Environment Variables</strong>.</li>
+      <li>Crea la variabile <code>API_FOOTBALL_KEY</code> e incolla lì la tua chiave.</li>
+      <li>Esegui un nuovo Deploy.</li>
+    </ol>
+  </div>
+
+  <div class="card guide-card">
+    <h3>3. Collega questa app Android</h3>
+    <p>Inserisci l'indirizzo pubblico del progetto Vercel, senza slash finale.</p>
+    <label>URL backend
+      <input id="backendUrl" type="url" placeholder="https://mio-fantacoach.vercel.app">
+    </label>
+    <div class="actions">
+      <button id="saveBackendBtn" class="btn primary">Salva collegamento</button>
+      <button id="guideTestBtn" class="btn secondary">Test API</button>
+    </div>
+    <div id="backendMessage" class="message"></div>
+    <div class="guide-example"><strong>Esempio:</strong> https://fantacoach-api.vercel.app</div>
+  </div>
+
+  <div class="card guide-card">
+    <h3>4. Sincronizza i dati</h3>
+    <p>Dopo il test vai in <strong>Dati</strong> e usa:</p>
+    <ul>
+      <li><strong>Sincronizza Serie A</strong> per squadre e rose.</li>
+      <li><strong>Aggiorna infortuni + tempi di rientro</strong> per il controllo medico approfondito.</li>
+      <li><strong>Aggiorna giornata</strong> nella sezione Formazione per partite e avversari.</li>
+    </ul>
+  </div>
+
+  <div class="card guide-card">
+    <h3>5. Aggiornare l'app Android</h3>
+    <p>L'app usa un identificativo Android stabile ed è compatibile da Android 5.0 in poi. Per pubblicare un aggiornamento:</p>
+    <ol>
+      <li>Apri il progetto in Android Studio.</li>
+      <li>Aumenta <code>versionCode</code> (8, 9, 10...) e modifica <code>versionName</code>.</li>
+      <li>Genera un nuovo <strong>Android App Bundle (.aab)</strong>.</li>
+      <li>Caricalo sulla stessa scheda app in Google Play Console.</li>
+      <li>Usa sempre la stessa chiave di firma / Play App Signing.</li>
+    </ol>
+    <div class="guide-note">📱 Non cambiare <code>applicationId</code> dopo la prima pubblicazione: Android lo usa per riconoscere gli aggiornamenti della stessa app.</div>
+  </div>
+
+  <div class="card guide-card">
+    <h3>6. Cosa rimane salvato dopo un aggiornamento</h3>
+    <p>Con il normale aggiornamento Android restano sul dispositivo: lega, squadre avversarie, prezzi d'asta, rose salvate, liste personalizzate, budget e impostazioni. La disinstallazione manuale può invece cancellare i dati locali.</p>
+  </div>
+</section>
+
+</main>
+
+<footer><p>FantaCoach Pro v7.1 Android · Asta, disponibilità e formazione.</p></footer>
+<script src="app.js"></script>
+</body>
+</html>
